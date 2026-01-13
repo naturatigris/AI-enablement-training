@@ -1,0 +1,7 @@
+# Core dependencies
+chromadb        # Vector database for document storage
+ollama          # LLM API access
+pypdf2          # PDF document processing
+python-docx     # Word document processing
+sentence-transformers
+openai

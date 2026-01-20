@@ -59,7 +59,7 @@ def contextualize_query(query: str, conversation_history: str, model: str) -> st
 
     try:
         if model=='gpt':
-            endpoint = "https://openai-rag-task.openai.azure.com/"
+            endpoint = "https://azure-openai-101.openai.azure.com/"
             deployment = "gpt-4.1"
             api_version = "2024-12-01-preview"
             subscription_key = "api key"
@@ -79,7 +79,7 @@ def contextualize_query(query: str, conversation_history: str, model: str) -> st
                 },
                 {
                     "role": "user",
-                    "content": query,
+                    "content": prompt,
                 }
             ],
             max_completion_tokens=13107,

@@ -1,11 +1,30 @@
 import requests
 from chroma_utils import semantic_search,get_context_with_sources
 from session import contextualize_query,format_history_for_prompt,add_message
+from openai import AzureOpenAI
 
  
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL_NAME = "deepseek-r1:7b"
- 
+
+def call_gpt(prompt: str) -> str:
+    client = AzureOpenAI(
+        api_version="2024-12-01-preview",
+        azure_endpoint="https://azure-openai-101.openai.azure.com/",
+        api_key="api key",
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4.1",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.2,
+    )
+
+    return response.choices[0].message.content.strip()
+
 def call_llama(prompt: str) -> str:
     response = requests.post(
         OLLAMA_URL,
@@ -35,14 +54,18 @@ def get_prompt(context, conversation_history, query):
  
  
 # Updated generate response function with conversation history also passed for Chatbot Memory
-def generate_response(query: str, context: str, conversation_history: str = ""):
+def generate_response(query: str, context: str, conversation_history: str = "",model:str=""):
     """Generate a response using Ollama (DeepSeek-R1) with conversation history"""
 
     prompt = get_prompt(context, conversation_history, query)
 
     try:
-        response = call_llama(prompt)
-        return response.strip()
+        if model == "gpt":
+            return call_gpt(prompt)
+        else:
+            response = call_llama(prompt)
+            return response.strip()
+
 
     except Exception as e:
         print(f"Error generating response: {e}")
@@ -71,7 +94,7 @@ def conversational_rag_query(
     # print("Sources:", sources)
 
 
-    response = generate_response(query, context, conversation_history)
+    response = generate_response(query, context, conversation_history,model)
 
     # Add to conversation history
     add_message(session_id, "user", query)

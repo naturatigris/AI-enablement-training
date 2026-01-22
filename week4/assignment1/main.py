@@ -21,7 +21,7 @@ async def chat():
                 break
             
             # For CompiledStateGraph, invoke returns a dict with 'messages' key
-            result = agent.invoke({"messages": [{"role": "user", "content": user_input}]})
+            result = await agent.ainvoke({"messages": [{"role": "user", "content": user_input}]})
             
             # Extract the assistant's response from messages
             if isinstance(result, dict) and 'messages' in result:

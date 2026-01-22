@@ -15,33 +15,15 @@ async def bedrock_chat_agent():
         region_name="us-east-1"
     )
 
-    prompt = SystemMessage("system",
-        """You are an enterprise AI assistant for Presidio.
+    prompt_string = SystemMessage("system","""
+        You are a HR agent capable of answering employee's queries on various HR policies.
 
-    You have access to the following tools:
-    {tools}
+        Available tools:
+        {tools}
 
-    Tool names:
-    {tool_names}
-
-    Rules:
-    - Always reason step by step
-    - If the question is about HR, insurance, benefits, or policy → use GoogleDocs first
-    - If GoogleDocs returns no answer → use RAG
-    - If still unavailable → clearly say information is not available
-
-    Use the following format EXACTLY:
-
-    Thought: your reasoning
-    Action: one of [{tool_names}]
-    Action Input: input to the tool
-
-    OR
-
-    Thought: final reasoning
-    Final Answer: your answer"""
-        )
-
+        If you don't have the necessary information to answer a question, please say that you don't have necessary information to answer the question. DO NOT answer questions which are not related to HR policies or Presidio.
+    """
+    )
     # tools = [google_docs_query,rag_query
     # ]
     client = MultiServerMCPClient(  
@@ -57,6 +39,6 @@ async def bedrock_chat_agent():
     tools = await client.get_tools()  
 
 
-    agent=create_agent(model=model, tools=tools,system_prompt=prompt)
+    agent=create_agent(model=model, tools=tools,debug=True,system_prompt=prompt_string)
     return agent
 

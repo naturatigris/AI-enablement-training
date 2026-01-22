@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
 from readability import Document
+from utils.sentence_retrieval import ContextRetriever
+
 
 load_dotenv()
 api_key = os.getenv("SERPAPI_API_KEY") 
@@ -44,12 +46,22 @@ async def google_docs_query(query: str) -> str:
         )
     
         docs = loader.load()
-        print(f"Loaded {len(docs)} documents")
+        # print(f"Loaded {len(docs)} documents")
        
         content = "\n\n".join(doc.page_content for doc in docs)
         content = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]', '', content)
+        engine= ContextRetriever()
+        engine.add_document('doc',content)
+        docs = engine.retrieve_docs(query)
+        doc_ids = [doc_id for doc_id, _ in docs]
+
+        sentences = engine.extract_sentences(query, doc_ids)
+        context = "\n\n".join(
+            f"{i+1}. {sent.strip()}"
+            for i, (sent, _) in enumerate(sentences)
+        )
         
-        return content.strip()
+        return context
 
 
     except Exception as e:
@@ -80,7 +92,7 @@ async def rag_query(query: str) -> str:
         str: Relevant excerpts from HR policy documents
     """
     try:
-        build_vectorstore()
+        # build_vectorstore()
         embeddings = BedrockEmbeddings(
             model_id="amazon.titan-embed-text-v1",
             region_name="us-east-1"
@@ -195,14 +207,13 @@ def fetch_page_content(url: str) -> str:
     resp = requests.get(url, headers=headers, timeout=10)
     resp.raise_for_status()
 
-    # Use Readability to isolate main article
     doc = Document(resp.text)
     html = doc.summary()
 
     soup = BeautifulSoup(html, "html.parser")
     text = soup.get_text(separator="\n", strip=True)
 
-    return text[:5000]  # limit for MCP / LLM safety
+    return text[:5000]  
 
 if __name__ == "__main__":
     app.run(transport="streamable-http")

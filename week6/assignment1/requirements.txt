@@ -1,0 +1,7 @@
+langchain_aws
+langchain_core
+langchain_community
+fastmcp
+langchain
+chromadb
+pypdf

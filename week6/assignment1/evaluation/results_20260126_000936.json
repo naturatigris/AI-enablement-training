@@ -1,0 +1,308 @@
+{
+  "timestamp": "20260126_000936",
+  "results": [
+    {
+      "question": "What are the coverage limitations for group insurance plans at Presidio?",
+      "category": "insurance",
+      "answer": "The results from searching the insurance policy documents provide details on the coverage limitations and exclusions for Presidio's group insurance plans. Some key limitations and exclusions mentioned...",
+      "expected_tools": [
+        "googleDocs"
+      ],
+      "actual_tools": [
+        "googleDocs"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 8.58,
+        "latency_score": 0.6,
+        "overall": 0.905
+      },
+      "status": "success"
+    },
+    {
+      "question": "What are the authority limitations mentioned in our insurance benefits policy?",
+      "category": "insurance",
+      "answer": "The key authority limitations mentioned in the insurance benefits policy are:\n\n1. Only the President, Vice President or Secretary of Guardian has the authority to determine policy issuance, waive prov...",
+      "expected_tools": [
+        "googleDocs"
+      ],
+      "actual_tools": [
+        "googleDocs"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 8.64,
+        "latency_score": 0.6,
+        "overall": 0.905
+      },
+      "status": "success"
+    },
+    {
+      "question": "Can you explain the procedures for filing an insurance claim under our group policy?",
+      "category": "insurance",
+      "answer": "The search results provide details on the procedures for filing an insurance claim under Presidio's group policy with Guardian Life Insurance. Key points include:\n\n- There are specific requirements ar...",
+      "expected_tools": [
+        "googleDocs"
+      ],
+      "actual_tools": [
+        "googleDocs"
+      ],
+      "metrics": {
+        "correctness": 0.4,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 9.68,
+        "latency_score": 0.6,
+        "overall": 0.73
+      },
+      "status": "success"
+    },
+    {
+      "question": "What is Presidio's hybrid work policy for 2026?",
+      "category": "hybrid_work",
+      "answer": "The web search results do not contain any relevant information about Presidio's specific hybrid work policy for the year 2026. The results discuss hybrid cloud environments and digital transformation,...",
+      "expected_tools": [
+        "rag"
+      ],
+      "actual_tools": [
+        "rag",
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 0.5,
+        "latency": 15.53,
+        "latency_score": 0.3,
+        "overall": 0.735
+      },
+      "status": "success"
+    },
+    {
+      "question": "How many days per week are employees required to work from the office?",
+      "category": "hybrid_work",
+      "answer": "The web search results indicate that the most common hybrid work model requires employees to be in the office 2-3 days per week, with 3 days per week being a frequently cited benchmark. Some companies...",
+      "expected_tools": [
+        "rag"
+      ],
+      "actual_tools": [
+        "rag",
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 0.5,
+        "latency": 12.77,
+        "latency_score": 0.3,
+        "overall": 0.735
+      },
+      "status": "success"
+    },
+    {
+      "question": "What are the guidelines for requesting permanent remote work arrangements?",
+      "category": "hybrid_work",
+      "answer": "Based on the information from the web search, here are some key guidelines for requesting permanent remote work arrangements at Presidio:\n\n- Employees need to submit a formal remote work agreement tha...",
+      "expected_tools": [
+        "rag"
+      ],
+      "actual_tools": [
+        "rag",
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 0.5,
+        "latency": 12.09,
+        "latency_score": 0.3,
+        "overall": 0.735
+      },
+      "status": "success"
+    },
+    {
+      "question": "Are there any eligibility requirements for hybrid work?",
+      "category": "hybrid_work",
+      "answer": "Based on the web search results, it seems Presidio does allow hybrid work arrangements, but there are some eligibility requirements and considerations:\n\n- The nature of the job duties must be suitable...",
+      "expected_tools": [
+        "rag"
+      ],
+      "actual_tools": [
+        "rag",
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 0.5,
+        "latency": 12.38,
+        "latency_score": 0.3,
+        "overall": 0.735
+      },
+      "status": "success"
+    },
+    {
+      "question": "What are the current industry benchmarks for hybrid work policies in tech companies?",
+      "category": "web_search",
+      "answer": "The search results provide some useful information on current hybrid work trends and benchmarks in the tech industry:\n\n- Many tech companies are adopting flexible hybrid work policies, with employees ...",
+      "expected_tools": [
+        "web_search_serpapi"
+      ],
+      "actual_tools": [
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 8.84,
+        "latency_score": 0.6,
+        "overall": 0.905
+      },
+      "status": "success"
+    },
+    {
+      "question": "What are the latest regulatory updates regarding employee insurance compliance?",
+      "category": "web_search",
+      "answer": "The search results provide some relevant information on recent regulatory updates related to employee insurance compliance, such as:\n\n- Final regulations issued addressing exemptions for certain relig...",
+      "expected_tools": [
+        "web_search_serpapi"
+      ],
+      "actual_tools": [
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.7,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 7.78,
+        "latency_score": 0.6,
+        "overall": 0.835
+      },
+      "status": "success"
+    },
+    {
+      "question": "What are the current market trends in employee benefits packages?",
+      "category": "web_search",
+      "answer": "The search results provide some useful information on current trends in employee benefits packages, including:\n\n- Traditional benefits packages are no longer suitable for the modern workforce, more di...",
+      "expected_tools": [
+        "web_search_serpapi"
+      ],
+      "actual_tools": [
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 7.94,
+        "latency_score": 0.6,
+        "overall": 0.905
+      },
+      "status": "success"
+    },
+    {
+      "question": "What's the weather like today?",
+      "category": "out_of_scope",
+      "answer": "I'm afraid I don't have any information about the weather forecast. As an AI assistant focused on HR policies and procedures at Presidio, I don't have access to data on weather conditions. My knowledg...",
+      "expected_tools": [],
+      "actual_tools": [],
+      "metrics": {
+        "correctness": 1.0,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 2.53,
+        "latency_score": 0.8,
+        "overall": 0.97
+      },
+      "status": "success"
+    },
+    {
+      "question": "Can you write Python code for me?",
+      "category": "out_of_scope",
+      "answer": "I apologize, but I do not have the capability to write Python code or any other programming code. My role is to assist with questions and tasks related to HR policies, insurance benefits, and company ...",
+      "expected_tools": [],
+      "actual_tools": [],
+      "metrics": {
+        "correctness": 1.0,
+        "hallucination_rate": 0.5,
+        "tool_success": 1.0,
+        "latency": 2.86,
+        "latency_score": 0.8,
+        "overall": 0.845
+      },
+      "status": "success"
+    },
+    {
+      "question": "What's the capital of France?",
+      "category": "out_of_scope",
+      "answer": "I'm afraid I don't have any information about the capital of France in my HR policy documents or insurance information. As an HR assistant for Presidio, I can only provide information related to the c...",
+      "expected_tools": [],
+      "actual_tools": [],
+      "metrics": {
+        "correctness": 1.0,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 2.57,
+        "latency_score": 0.8,
+        "overall": 0.97
+      },
+      "status": "success"
+    },
+    {
+      "question": "How does our hybrid work policy compare to industry standards?",
+      "category": "complex",
+      "answer": "The retrieved policy states that Presidio employees are expected to work from the office 3 days per week under the hybrid model. This aligns with the common industry practice of having employees work ...",
+      "expected_tools": [
+        "rag",
+        "web_search_serpapi"
+      ],
+      "actual_tools": [
+        "web_search_serpapi",
+        "rag"
+      ],
+      "metrics": {
+        "correctness": 0.9,
+        "hallucination_rate": 0.0,
+        "tool_success": 1.0,
+        "latency": 11.08,
+        "latency_score": 0.3,
+        "overall": 0.86
+      },
+      "status": "success"
+    },
+    {
+      "question": "What insurance benefits are available for remote employees under our hybrid work policy?",
+      "category": "complex",
+      "answer": "The web search results provide some potentially relevant information about insurance benefits and considerations for remote employees under hybrid work policies. However, I did not find any specific d...",
+      "expected_tools": [
+        "googleDocs",
+        "rag"
+      ],
+      "actual_tools": [
+        "rag",
+        "web_search_serpapi"
+      ],
+      "metrics": {
+        "correctness": 0.8,
+        "hallucination_rate": 0.0,
+        "tool_success": 0.5,
+        "latency": 11.13,
+        "latency_score": 0.3,
+        "overall": 0.7
+      },
+      "status": "success"
+    }
+  ],
+  "summary": {
+    "total": 15,
+    "avg_correctness": 0.8666666666666667,
+    "avg_hallucination": 0.03333333333333333,
+    "avg_tool_success": 0.8333333333333334,
+    "avg_latency": 8.96
+  }
+}

@@ -1,4 +1,10 @@
+.myenv
 myenv
 myvenv
+.myvenv
 .env
 __pycache__
+vector_store
+token.json
+credentials.json
+.DS_Store

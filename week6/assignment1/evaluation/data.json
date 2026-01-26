@@ -1,0 +1,182 @@
+[
+  {
+    "inputs": {
+      "question": "What are the coverage limitations for group insurance plans at Presidio?"
+    },
+    "outputs": {
+      "answer": "Should reference specific coverage limitations from insurance policy documents"
+    },
+    "metadata": {
+      "expected_tools": ["googleDocs"],
+      "category": "insurance"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What are the authority limitations mentioned in our insurance benefits policy?"
+    },
+    "outputs": {
+      "answer": "Should detail authority limitations from insurance policy documents"
+    },
+    "metadata": {
+      "expected_tools": ["googleDocs"],
+      "category": "insurance"
+    }
+  },
+  {
+    "inputs": {
+      "question": "Can you explain the procedures for filing an insurance claim under our group policy?"
+    },
+    "outputs": {
+      "answer": "Should provide step-by-step procedures for filing insurance claims"
+    },
+    "metadata": {
+      "expected_tools": ["googleDocs"],
+      "category": "insurance"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What is Presidio's hybrid work policy for 2026?"
+    },
+    "outputs": {
+      "answer": "Should reference the Hybrid Work Policy 2026 PDF document"
+    },
+    "metadata": {
+      "expected_tools": ["rag"],
+      "category": "hybrid_work"
+    }
+  },
+  {
+    "inputs": {
+      "question": "How many days per week are employees required to work from the office?"
+    },
+    "outputs": {
+      "answer": "Should specify office attendance requirements"
+    },
+    "metadata": {
+      "expected_tools": ["rag"],
+      "category": "hybrid_work"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What are the guidelines for requesting permanent remote work arrangements?"
+    },
+    "outputs": {
+      "answer": "Should detail procedures for requesting remote work"
+    },
+    "metadata": {
+      "expected_tools": ["rag"],
+      "category": "hybrid_work"
+    }
+  },
+  {
+    "inputs": {
+      "question": "Are there any eligibility requirements for hybrid work?"
+    },
+    "outputs": {
+      "answer": "Should list eligibility criteria for hybrid work"
+    },
+    "metadata": {
+      "expected_tools": ["rag"],
+      "category": "hybrid_work"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What are the current industry benchmarks for hybrid work policies in tech companies?"
+    },
+    "outputs": {
+      "answer": "Should provide current industry information about hybrid work trends"
+    },
+    "metadata": {
+      "expected_tools": ["web_search_serpapi"],
+      "category": "web_search"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What are the latest regulatory updates regarding employee insurance compliance?"
+    },
+    "outputs": {
+      "answer": "Should provide current regulatory information"
+    },
+    "metadata": {
+      "expected_tools": ["web_search_serpapi"],
+      "category": "web_search"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What are the current market trends in employee benefits packages?"
+    },
+    "outputs": {
+      "answer": "Should summarize current trends in employee benefits"
+    },
+    "metadata": {
+      "expected_tools": ["web_search_serpapi"],
+      "category": "web_search"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What's the weather like today?"
+    },
+    "outputs": {
+      "answer": "I don't have the necessary information to answer questions about weather"
+    },
+    "metadata": {
+      "expected_tools": [],
+      "category": "out_of_scope"
+    }
+  },
+  {
+    "inputs": {
+      "question": "Can you write Python code for me?"
+    },
+    "outputs": {
+      "answer": "I don't have the necessary information to answer questions about programming"
+    },
+    "metadata": {
+      "expected_tools": [],
+      "category": "out_of_scope"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What's the capital of France?"
+    },
+    "outputs": {
+      "answer": "I don't have the necessary information to answer general knowledge questions"
+    },
+    "metadata": {
+      "expected_tools": [],
+      "category": "out_of_scope"
+    }
+  },
+  {
+    "inputs": {
+      "question": "How does our hybrid work policy compare to industry standards?"
+    },
+    "outputs": {
+      "answer": "Should combine internal policy with industry benchmarks"
+    },
+    "metadata": {
+      "expected_tools": ["rag", "web_search_serpapi"],
+      "category": "complex"
+    }
+  },
+  {
+    "inputs": {
+      "question": "What insurance benefits are available for remote employees under our hybrid work policy?"
+    },
+    "outputs": {
+      "answer": "Should reference both insurance and hybrid work policies"
+    },
+    "metadata": {
+      "expected_tools": ["googleDocs", "rag"],
+      "category": "complex"
+    }
+  }
+]

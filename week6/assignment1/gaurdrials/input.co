@@ -1,0 +1,5 @@
+define flow check jailbreak
+  $result = execute check_jailbreak
+  if $result == "yes"
+    bot refuse
+    stop

@@ -1,7 +1,7 @@
 from langchain_aws import ChatBedrockConverse
 from langchain.agents import create_agent
 from langchain.messages import SystemMessage
-from langchain_mcp_adapters.client import MultiServerMCPClient 
+from langchain_mcp_adapters.client import MultiServerMCPClient
 
 
 # from mcp.server import web_search
@@ -37,6 +37,6 @@ async def bedrock_chat_agent():
     tools = await client.get_tools()  
 
 
-    agent=create_agent(model=model, tools=tools,debug=True,system_prompt=prompt_string)
+    agent=create_agent(model=model, debug=True,tools=tools,system_prompt=prompt_string)
     return agent
 

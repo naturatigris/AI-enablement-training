@@ -10,8 +10,7 @@ async def bedrock_chat_agent():
         model="anthropic.claude-3-sonnet-20240229-v1:0",
         temperature=0.1,
         max_tokens=1000,
-        region_name="us-east-1"
-    )
+        region_name="us-east-1"    )
 
     prompt_string = SystemMessage("system","""
         You are a HR agent capable of answering employee's queries on various HR policies.

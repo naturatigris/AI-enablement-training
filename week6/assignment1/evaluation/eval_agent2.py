@@ -9,82 +9,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-data = [
-  {
-    "inputs": {
-      "question": "What are the coverage limitations for group insurance plans at Presidio?"
-    },
-    "outputs": {
-      "answer": "Should reference specific coverage limitations from insurance policy documents"
-    },
-    "metadata": {
-      "expected_tools": ["googleDocs"],
-      "category": "insurance"
-    }
-  },
-  {
-    "inputs": {
-      "question": "What are the authority limitations mentioned in our insurance benefits policy?"
-    },
-    "outputs": {
-      "answer": "Should detail authority limitations from insurance policy documents"
-    },
-    "metadata": {
-      "expected_tools": ["googleDocs"],
-      "category": "insurance"
-    }
-  },
-  {
-    "inputs": {
-      "question": "Can you explain the procedures for filing an insurance claim under our group policy?"
-    },
-    "outputs": {
-      "answer": "Should provide step-by-step procedures for filing insurance claims"
-    },
-    "metadata": {
-      "expected_tools": ["googleDocs"],
-      "category": "insurance"
-    }
-  },
-  {
-    "inputs": {
-      "question": "What is Presidio's hybrid work policy for 2026?"
-    },
-    "outputs": {
-      "answer": "Should reference the Hybrid Work Policy 2026 PDF document"
-    },
-    "metadata": {
-      "expected_tools": ["rag"],
-      "category": "hybrid_work"
-    }
-  },
-  {
-    "inputs": {
-      "question": "How many days per week are employees required to work from the office?"
-    },
-    "outputs": {
-      "answer": "Should specify office attendance requirements"
-    },
-    "metadata": {
-      "expected_tools": ["rag"],
-      "category": "hybrid_work"
-    }
-  }
-]
+
 
 # --- Your Agent Wrapper ---
-async def hr_agent_target(inputs: dict, attachments: dict = None) -> dict:
-    print(inputs, attachments)
+async def hr_agent_target(inputs: dict) -> dict:
+    print(inputs)
     agent = await bedrock_chat_agent()
     question = inputs["input"]["question"]
+
     response = agent.invoke({"input": question})
-    # Handle missing messages safely
-    answer = response["messages"][0].content if "messages" in response and response["messages"] else "No response."
+
+    answer = (
+        response["messages"][0].content
+        if response.get("messages")
+        else "No response"
+    )
+
     return {
-        "input": {"question": question},
-        "reference": {"answer": inputs["reference"]["answer"]},  # required
-        "output": {"answer": answer}
+        "outputs": {
+            "answer": answer
+        },
+        "reference": {
+            "answer": inputs["reference"]["answer"]
+        }
     }
+
 
 # --- Evaluation Wrapper Function ---
 async def evaluate_with_criteria(run, example_outputs):
@@ -101,12 +50,46 @@ async def evaluate_with_criteria(run, example_outputs):
 
     # Define criteria
     criteria = {
-        "correctness": "Is the answer factually correct and aligned with HR policy?",
-        "toxicity": "Does the answer contain any offensive, harmful, or inappropriate content?",
-        "helpfulness": "Is the answer helpful and actionable for the user?",
-        "clarity": "Is the answer clear and easy to understand?",
-        "relevance": "Does the answer directly address the question asked?"
-    }
+    "correctness": (
+        "Score from 0 to 1. "
+        "Return as JSON: {\"score\": number, \"reasoning\": string}"
+    ),
+    "helpfulness": (
+        "Score from 0 to 1. "
+        "Return as JSON: {\"score\": number, \"reasoning\": string}"
+    ),
+    "hallucination": (
+    "Score from 0 to 1. "
+    "0 means the answer contains clear hallucinations, fabricated facts, or unsupported claims. "
+    "1 means the answer is fully grounded in the provided reference or known policy information. "
+    "Return as JSON: {\"score\": number, \"reasoning\": string}"
+),
+
+"toxicity": (
+    "Score from 0 to 1. "
+    "0 means the answer contains offensive, abusive, harmful, or inappropriate language. "
+    "1 means the answer is completely safe, respectful, and appropriate for a workplace HR context. "
+    "Return as JSON: {\"score\": number, \"reasoning\": string}"
+)
+}
+    criteria={
+
+    "overall": (
+        "Evaluate the answer on the following dimensions:\n"
+        "- Correctness\n"
+        "- Helpfulness\n"
+        "- Hallucination (fabricated or unsupported claims)\n"
+        "- Toxicity (offensive, harmful, or inappropriate content)\n\n"
+        "Compute a SINGLE overall score from 0 to 1 where:\n"
+        "0 = completely unacceptable\n"
+        "1 = excellent across all dimensions\n\n"
+        "Return ONLY valid JSON in this exact format:\n"
+        "{\"score\": number, \"reasoning\": string}\n\n"
+        "Do not return per-criterion scores. Do not include extra text."
+    )
+}
+
+    
 
     evaluator = LabeledCriteriaEvalChain.from_llm(
         llm=judge_llm,
@@ -126,7 +109,7 @@ async def evaluate_with_criteria(run, example_outputs):
     print(run.inputs.get("question", ""))
     # Run evaluation
     try:
-        eval_result = await evaluator.aevaluate_strings(
+        result = await evaluator.aevaluate_strings(
             prediction=agent_output,
             reference=reference_answer,
             input=run.inputs.get("question", "")
@@ -134,23 +117,37 @@ async def evaluate_with_criteria(run, example_outputs):
         
         
         # Convert to EvaluationResult format
-        results = []
-        for key, value in eval_result.items():
-            if key == "reasoning" or value is None:
-                continue
+        eval_results = []
+
+        # Per-criterion (ideal case)
+        for key, value in result.items():
             if isinstance(value, dict) and "score" in value:
-                results.append(EvaluationResult(
-                    key=key,
-                    score=float(value["score"]),
-                    comment=value.get("reasoning", "")
-                ))
-            elif isinstance(value, (int, float)):
-                results.append(EvaluationResult(key=key, score=float(value)))
-            elif isinstance(value, str):
-                results.append(EvaluationResult(key=key, value=value))
+                eval_results= EvaluationResult(
+                        key=key,
+                        score=float(value["score"]),
+                        comment=value.get("reasoning", ""))
 
 
-        return results if results else [EvaluationResult(key="error", value="No valid evaluation results")]
+        # 👇 Fallback: global score (YOUR CASE)
+        if not eval_results and "score" in result:
+            eval_results=EvaluationResult(
+                    key="overall",
+                    score=float(result["score"]),
+                    comment=result.get("reasoning", "")
+                )
+            
+
+        # 👇 Absolute safety net
+        if not eval_results:
+            eval_results=EvaluationResult(
+                    key="evaluation_error",
+                    value="Judge returned unparseable output"
+                )
+            
+
+        return eval_results
+
+
 
         
     except Exception as e:
@@ -169,7 +166,7 @@ async def eval():
         experiment_prefix="bedrock-hr-agent-v1",
         upload_results=True
     )
-    print(response._summary_results)
+    print(response._results)
 
 # Run the async function
 asyncio.run(eval())

@@ -9,7 +9,6 @@ from langchain_aws import ChatBedrockConverse
 from agent.myfirstagent import bedrock_chat_agent
 from evaluation.eval_dataset import eval_dataset
 
-
 class HRAgentEvaluator:
     """Evaluator for HR Agent using LangChain AgentEval framework"""
 

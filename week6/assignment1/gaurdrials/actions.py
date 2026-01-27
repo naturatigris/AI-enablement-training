@@ -2,7 +2,7 @@ from nemoguardrails.actions import action
 from typing import Optional
 
 @action()
-async def check_jailbreak(context: Optional[dict] = None) -> str:
+async def check_jailbreak(context: Optional[dict] = None) -> bool:
     """Check if user message is a jailbreak attempt"""
     user_message = context.get("user_message", "") if context else ""
     
@@ -17,36 +17,56 @@ async def check_jailbreak(context: Optional[dict] = None) -> str:
         "override",
         "jailbreak"
     ]
+    harmful_keywords = [
+        "how to hack", "teach me to hack", "hacking tutorial",
+        "exploit vulnerability", "create malware", 
+        "sql injection", "ddos attack",
+        "brute force password", "crack password",
+        "bypass security", "penetration testing tutorial"
+    ]
+    
+    
     
     user_lower = user_message.lower()
     
     for pattern in jailbreak_patterns:
         if pattern in user_lower:
             print(f"⚠️  Jailbreak pattern detected: {pattern}")
-            return "yes"
+            return True
+    for pattern in harmful_keywords:
+        if pattern in user_lower:
+            print(f"⚠️  Jailbreak pattern detected: {pattern}")
+            return True
     
-    return "no"
+    return False
 
 
-@action()
-async def check_moderation(context: Optional[dict] = None) -> str:
-    """Check if bot response is appropriate"""
-    bot_message = context.get("bot_message", "") if context else ""
+
+
+
+@action(is_system_action=True)
+async def check_if_output_is_safe(context: Optional[dict] = None):
+    """Check if bot output contains harmful content"""
+    if context is None:
+        return True
     
-    # Simple heuristic check for inappropriate content
-    blocked_words = [
-        "illegal",
-        "violence",
-        "hate",
-        "discrimination",
-        "abuse"
+    # Get the last bot message from context
+    bot_message = context.get("last_bot_message", "")
+    
+    # Handle None case
+    if bot_message is None:
+        bot_message = ""
+    
+    bot_message_lower = str(bot_message).lower()
+    
+    harmful_keywords = [
+        "hack", "exploit", "malware", "vulnerability",
+        "bypass", "injection", "penetration", "brute force",
+        "crack", "root access", "privilege escalation"
     ]
     
-    bot_lower = bot_message.lower()
+    for keyword in harmful_keywords:
+        if keyword in bot_message_lower:
+            return False
     
-    for word in blocked_words:
-        if word in bot_lower:
-            print(f"⚠️  Inappropriate content detected: {word}")
-            return "no"
-    
-    return "yes"
+    return True

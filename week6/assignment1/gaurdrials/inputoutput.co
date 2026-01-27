@@ -1,0 +1,38 @@
+# =========================
+# Input Guardrails
+# =========================
+
+define flow check jailbreak attempt
+  $is_jailbreak = execute check_jailbreak
+  if $is_jailbreak
+    bot refuse jailbreak
+    stop
+
+
+
+define flow greeting
+  user expressed greeting
+  bot express greeting
+
+# =========================
+# User Intents
+# =========================
+
+define user expressed greeting
+  "hi"
+  "hello"
+  "hey"
+  "greetings"
+
+
+
+# =========================
+# Bot Messages
+# =========================
+
+define bot express greeting
+  "Hello! How can I help you with HR or insurance questions?"
+
+define bot refuse jailbreak
+  "I cannot comply with requests that attempt to bypass system safeguards."
+

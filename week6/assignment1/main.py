@@ -74,9 +74,11 @@ async def process_with_guardrails(user_input: str, agent, rails: LLMRails):
     
     # Step 1: Input Guardrails - validate and process user input
     try:
+        print({"role": "user", "content": user_input})
         input_result = await rails.generate_async(
             messages=[{"role": "user", "content": user_input}]
         )
+        print(input_result)
         input_response = extract_response_content(input_result)
         print("✓ Input Guardrails: Passed")
     except Exception as e:
@@ -84,7 +86,7 @@ async def process_with_guardrails(user_input: str, agent, rails: LLMRails):
         input_response = user_input
     
     # Check if input was blocked
-    if input_response and any(phrase in input_response.lower() for phrase in ["cannot", "can't", "refused", "refuse"]):
+    if input_response and any(phrase in input_response.lower() for phrase in ["cannot", "can't", "refused", "refuse","refusal"]):
         return input_response, []
     
     # Step 2: Process with Agent - use original or validated input
@@ -117,18 +119,18 @@ async def process_with_guardrails(user_input: str, agent, rails: LLMRails):
     except Exception as e:
         print(f"⚠️ Agent processing error: {e}")
         agent_response = "I apologize, but I encountered an error processing your request."
-    # # Step 3: Output Guardrails - validate agent response
-    # output_result = await rails.generate_async (
-    #         messages=[
-    #             {"role": "user", "content": validated_input},
-    #             {"role": "assistant", "content": agent_response}
-    #         ]
+    # Step 3: Output Guardrails - validate agent response
+    output_result = await rails.generate_async (
+            messages=[
+                {"role": "assistant", "content": agent_response}
+            ]
             
-    #     )
-    # final_response = extract_response_content(output_result)
-    # if not final_response:
+        )
+    final_response = extract_response_content(output_result)
+    print("gaurdrial answer", output_result)
+    if not final_response:
 
-    final_response = agent_response
+        final_response = agent_response
     
     # Extract tool calls
     tools = []
@@ -149,17 +151,17 @@ async def chat():
     print("Type 'exit' or 'quit' to end the conversation.\n")
     
     # Use custom model that ensures string outputs
-    model = CustomBedrockConverse(
-        model="anthropic.claude-3-sonnet-20240229-v1:0",
-        temperature=0.1,
-        max_tokens=1000,
-        region_name="us-east-1"
-    )
+    # model = CustomBedrockConverse(
+    #     model="anthropic.claude-3-sonnet-20240229-v1:0",
+    #     temperature=0.1,
+    #     max_tokens=1000,
+    #     region_name="us-east-1"
+    # )
     
     # Initialize guardrails and agent once
     try:
         rails_config = RailsConfig.from_path("./gaurdrials")
-        rails = LLMRails(config=rails_config, llm=model)
+        rails = LLMRails(config=rails_config)
         agent = await bedrock_chat_agent()
         print("✓ Guardrails and agent initialized successfully\n")
     except Exception as e:

@@ -1,5 +1,0 @@
-define flow check moderation
-  $result = execute check_moderation
-  if $result == "no"
-    bot respond "I can't provide that response as it may be inappropriate."
-    stop
